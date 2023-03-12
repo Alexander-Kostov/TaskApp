@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <div class="container bg-blur rounded mt-1 mb-4">
+        <div class="row mt-1 mb-2">
+            <div class="col-6 mt-1 mb-1">
+                <div>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Working Assignments</h3>
+                    <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">Username:  <span th:text="${@loggedUser.username}"></span> </h6>
+
+                    <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
+                        <table th:each="task: ${workingAssignments}" class="table table-striped table-dark">
+                            <tr>
+                                <td th:text="|Title: *{task.title}|" style="width: 30%" class="bg-info"></td>
+                                <td th:text="|Due Date: *{task.dueDate}|" class="bg-primary" style="width: 28%">
+                                </td>
+                                <td th:text="|Description: *{task.description}|"></td>
+                                <td class="text-primary">
+                                    <form th:action="@{/home/finish-task/{id}(id = ${task.id})}" th:method="delete">
+                                    <button type="submit">
+                                            <span>
+                                                 Complete
+                                                <img src="/img/tick.png" width="45px" height="35px" alt="no picture">
+                                            </span>
+                                    </button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Created Assignments</h3>
+                    <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
+                        <table th:each="task: ${createdAssignments}" class="table table-striped table-dark">
+                            <tr>
+                                <td class="bg-primary" scope="row" style="width: 5%">
+                                    <a th:text="|Title: *{task.title}|"></a>
+                                </td>
+                                <td style="width: 5%" class="bg-info">
+                                    <a th:text="|Due Date: *{task.dueDate}|"></a>
+                                </td>
+                                <td class="bg-primary" style="width: 15%">
+                                    <a th:text="|Description: *{task.description}|"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 mt-1 mb-1">
+                <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">All Assignments</h3>
+                <h6 class="mySticky bg-gray text-dark  mb-0 mt-0">
+                    <span th:text="${allTasks.size()}"></span> total tasks</h6>
+                <div class="bg-dark rounded m-auto" style="height: 68.5vh; overflow: auto">
+                    <th:block>
+                        <br>
+
+                        <ul class="list-group list-group-horizontal text-dark mb-2"
+                            th:each="task: ${allTasks}">
+                            <li class="list-group-item">
+                                <table>
+                                    <tr>
+                                        <td style="width: 15%">Creator:
+                                            <a th:text="|${task.getCreator()}:|">
+                                            </a>
+                                        </td>
+                                        <td>Description:
+                                            <a th:text="|${task.description}|">
+
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                            <li class="list-group-item bg-gray">
+                                <table>
+                                    <tr>
+                                        <td style="width: 10%">Title: <span
+                                                th:text="*{task.title}"></span></td>
+                                        <td class="text-primary">
+                                            Due Date: 
+                                            <span th:text="*{task.getDueDate()}"></span>
+                                        </td>
+                                        <td class="text-primary">
+                                            <span th:if="${task.assignee != null}" th:text="|Assignee: *{task.assignee}|"></span>
+                                            <a th:if="${task.assignee == null}" th:href="@{/home/take-task/{id}(id = ${task.id})}">
+                                            <span>
+                                                Take task
+                                                <img src="/img/arrow.png" width="45px" height="35px" alt="no picture">
+                                            </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </li>
+                        </ul>
+
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

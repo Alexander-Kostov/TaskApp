@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Task App</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg bg-nav rounded">
+        <a class="nav-link text-white active h5" href="/">Home</a>
+        <a th:if="${@loggedUser.loggedIn()}" class="nav-link text-white active h5" th:href="@{/task-add}">Add Task</a>
+
+        <a th:if="${@loggedUser.loggedIn()}" class="nav-link text-white active h5" th:href="@{/home}">Tasks</a>
+
+        <a th:if="${@loggedUser.loggedIn()}" class="nav-link text-white active h5" th:href="@{/stats}">Stats</a>
+
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
+            <ul class="navbar-nav row">
+                <li th:if="${!@loggedUser.loggedIn()}" class="nav-item col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/login}">Login</a>
+                </li>
+
+                <li th:if="${!@loggedUser.loggedIn()}" class="nav-item col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/register}">Register</a>
+                </li>
+
+                <li th:if="${@loggedUser.loggedIn()}" class="nav-item col-md-4">
+                    <a class="nav-link text-white active h5" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<footer class="footer bg-transparent  py-2">
+    <div class="container-fluid text-center">
+        <div class="footer-background h5 text-white fixed-bottom">
+        </div>
+    </div>
+</footer>
+</body>
+</html>
